@@ -14,14 +14,14 @@ namespace HelenaGrace.Models
         public string PhoneNumber { get; set; }
         public string Bio { get; set; }
 
-        public User(string firstName, string lastName, string email, string password, string phoneNumber, string bio)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Password = password;
-            PhoneNumber = phoneNumber;
-            Bio = bio;
-        }
+        //public User(string firstName, string lastName, string email, string password, string phoneNumber, string bio)
+        //{
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    Email = email;
+        //    Password = password;
+        //    PhoneNumber = phoneNumber;
+        //    Bio = bio;
+        //}
     }
 }

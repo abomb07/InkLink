@@ -14,7 +14,7 @@ namespace HelenaGrace.Models.Data
         {
             bool success = false;
 
-            string sqlStatement = "SELECT * FROM dbo.USER WHERE EMAIL = @email and PASSWORD = @password";
+            string sqlStatement = "SELECT * FROM dbo.[USER] WHERE EMAIL = @email and PASSWORD = @password";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -28,6 +28,12 @@ namespace HelenaGrace.Models.Data
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
                     if (reader.HasRows)
+                        reader.Read();
+                        user.FirstName = (string)reader["FIRST_NAME"];
+                        user.LastName = (string)reader["LAST_NAME"];
+                        user.Email = (string)reader["EMAIL"];
+                        user.PhoneNumber = (string)reader["PHONE_NUMBER"];
+                        user.Bio = (string)reader["BIO"];
                         success = true;
                 }
                 catch (Exception ex)
