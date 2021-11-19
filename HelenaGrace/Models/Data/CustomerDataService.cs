@@ -25,29 +25,6 @@ namespace HelenaGrace.Models.Data
                 Console.WriteLine(appointment.id.ToString(), appointment.name, appointment.dateTime, appointment.email, appointment.phoneNumber);
                 try
                 {
-
-                    /*
-                    SqlParameter idParam = new SqlParameter("id", System.Data.SqlDbType.Int, 0);
-                    SqlParameter emailParam = new SqlParameter("email", System.Data.SqlDbType.VarChar, 50);
-                    SqlParameter nameParam = new SqlParameter("name", System.Data.SqlDbType.VarChar, 50);
-                    SqlParameter dateTimeParam = new SqlParameter("dateTime", System.Data.SqlDbType.DateTime);
-                    SqlParameter phoneNumberParam = new SqlParameter("phoneNumber", System.Data.SqlDbType.VarChar, 50);
-
-                    idParam.Value = appointment.id;
-                    emailParam.Value = appointment.email;
-                    nameParam.Value = appointment.name;
-                    dateTimeParam.Value = appointment.dateTime;
-                    phoneNumberParam.Value = appointment.phoneNumber;
-
-                    command.Parameters.Add(idParam);
-                    command.Parameters.Add(emailParam);
-                    command.Parameters.Add(nameParam);
-                    command.Parameters.Add(dateTimeParam);
-                    command.Parameters.Add(phoneNumberParam);
-                    */
-
-                    //call prepare and execute query.
-                    //command.Prepare();
                     connection.Open();
                     command.ExecuteNonQuery();
 
