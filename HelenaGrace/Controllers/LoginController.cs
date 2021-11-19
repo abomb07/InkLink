@@ -1,5 +1,6 @@
 ﻿using HelenaGrace.Models;
 using HelenaGrace.Models.Business;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,20 @@ namespace HelenaGrace.Controllers
             UserBusinessService ubs = new UserBusinessService();
             if (ubs.Authenticate(user))
             {
-                return View("/Views/Artist/Index.cshtml", user);
+                HttpContext.Session.SetInt32("loggedIn", 1);
+                return View("/Views/Artist/Index.cshtml", ubs.FindUser());
             }
             else
             {
                 ViewData.Add("Message", "Login failed. Please try again.");
                 return View("Index");
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return View("/Views/Home/Index.cshtml");
         }
     }
 }

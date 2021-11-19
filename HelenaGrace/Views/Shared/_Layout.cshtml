@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,9 +38,18 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - HelenaGrace - <a asp-area="" asp-controller="Login" asp-action="Index">Admin Login</a>
-        </div>
+        @if (Context.Session.GetInt32("loggedIn") != null)
+        {
+            <div class="container">
+                &copy; 2021 - HelenaGrace - <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+            </div>
+        }
+        else
+        {
+            <div class="container">
+                &copy; 2021 - HelenaGrace - <a asp-area="" asp-controller="Login" asp-action="Index">Admin Login</a>
+            </div>
+        }
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
