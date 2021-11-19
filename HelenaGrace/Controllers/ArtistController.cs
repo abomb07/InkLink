@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HelenaGrace.Models;
+using HelenaGrace.Models.Business;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,28 @@ namespace HelenaGrace.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            UserBusinessService ubs = new UserBusinessService();
+            return View(ubs.FindUser());
+        }
+
+        public IActionResult UpdateProfileView()
+        {
+            UserBusinessService ubs = new UserBusinessService();
+            return View(ubs.FindUser());
+        }
+
+        public IActionResult UpdateProfile(User user)
+        {
+            UserBusinessService ubs = new UserBusinessService();
+            if (ubs.UpdateProfile(user))
+            {
+                return View("Index", ubs.FindUser());
+            }
+            else
+            {
+                ViewData.Add("Message", "Profile update failed.");
+                return View("UpdateProfileView");
+            }
         }
     }
 }

@@ -12,7 +12,17 @@ namespace HelenaGrace.Models.Business
 
         public bool Authenticate(User user)
         {
-            return uds.findUserByEmailAndPassword(user);
+            return uds.Authenticate(user);
+        }
+
+        public bool UpdateProfile(User user)
+        {
+            return uds.UpdateProfile(user);
+        }
+
+        public User FindUser()
+        {
+            return uds.FindUser();
         }
     }
 }
