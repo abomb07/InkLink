@@ -15,9 +15,11 @@ namespace HelenaGrace.Controllers
 
         public IActionResult MakeAppointment(Appointment appointment) 
         {
+            DesignBusinessService dbs = new DesignBusinessService();
+
             if (service.MakeAppointment(appointment))
             {
-                return View("/Views/Home/Index.cshtml");
+                return View("/Views/Home/Index.cshtml", dbs.GetAll());
             }
             else
             {

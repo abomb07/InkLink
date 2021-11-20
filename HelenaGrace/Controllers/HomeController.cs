@@ -1,4 +1,5 @@
 ﻿using HelenaGrace.Models;
+using HelenaGrace.Models.Business;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ namespace HelenaGrace.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            DesignBusinessService dbs = new DesignBusinessService();
+            return View(dbs.GetAll());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

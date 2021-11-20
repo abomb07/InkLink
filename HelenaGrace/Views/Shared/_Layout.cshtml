@@ -41,7 +41,7 @@
         @if (Context.Session.GetInt32("loggedIn") != null)
         {
             <div class="container">
-                &copy; 2021 - HelenaGrace - <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+                &copy; 2021 - HelenaGrace - <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a> - <a asp-area="" asp-controller="Artist" asp-action="UploadDesignView">Upload Photo</a>
             </div>
         }
         else

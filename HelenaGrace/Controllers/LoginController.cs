@@ -33,8 +33,9 @@ namespace HelenaGrace.Controllers
 
         public IActionResult Logout()
         {
+            DesignBusinessService dbs = new DesignBusinessService();
             HttpContext.Session.Clear();
-            return View("/Views/Home/Index.cshtml");
+            return View("/Views/Home/Index.cshtml", dbs.GetAll());
         }
     }
 }
