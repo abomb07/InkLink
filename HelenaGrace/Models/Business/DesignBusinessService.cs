@@ -14,10 +14,14 @@ namespace HelenaGrace.Models.Business
             return dds.GetAll();
         }
 
+        public Design GetById(int id)
+        {
+            return dds.GetById(id);
+        }
+
         public bool Insert(Design design)
         {
             design.DateTime = DateTime.Now;
-            design.Path = design.Picture.FileName;
 
             //make sure file has an image extention
             if (!string.Equals(design.Picture.ContentType, "image/jpg", StringComparison.OrdinalIgnoreCase) &&
@@ -31,6 +35,16 @@ namespace HelenaGrace.Models.Business
             }
             design.Description = design.Description != null ? design.Description : "";
             return dds.Insert(design);
+        }
+
+        public bool Delete(Design design)
+        {
+            return dds.Delete(design);
+        }
+
+        public bool UpdateDesign(Design design)
+        {
+            return dds.UpdateDesign(design);
         }
     }
 }

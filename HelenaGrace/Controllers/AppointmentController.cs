@@ -23,7 +23,7 @@ namespace HelenaGrace.Controllers
             }
             else
             {
-                ViewData.Add("Message", "Appointment scheduling failed. Please try again.");
+                ViewData.Add("Fail", "Appointment scheduling failed. Please try again.");
                 return View("Index");
             }
         }

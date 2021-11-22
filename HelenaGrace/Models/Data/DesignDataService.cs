@@ -47,6 +47,101 @@ namespace HelenaGrace.Models.Data
             return allDesigns;
         }
 
+        public Design GetById(int id)
+        {
+            Design d1 = null;
+            string sqlStatement = "SELECT * FROM dbo.[DESIGN] WHERE ID = @id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+
+                command.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = id;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        d1 = new Design
+                        {
+                            Id = (int)reader["ID"],
+                            Description = (string)reader["DESCRIPTION"],
+                            Path = (string)reader["PICTURE"],
+                            DateTime = (DateTime)reader["DATETIME"]
+                        };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return d1;
+        }
+
+        public bool UpdateDesign(Design design)
+        {
+            bool success = false;
+            string sqlStatement = "UPDATE dbo.[DESIGN] SET DESCRIPTION = @description WHERE ID = @id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+
+                command.Parameters.Add("@description", System.Data.SqlDbType.NText).Value = design.Description;
+                command.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = design.Id;
+                try
+                {
+                    connection.Open();
+                    if (command.ExecuteNonQuery() > 0)
+                        success = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return success;
+        }
+
+        public bool Delete(Design design)
+        {
+            bool success = false;
+            string sqlStatement = "DELETE FROM dbo.[DESIGN] WHERE ID=@id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+
+                command.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = design.Id;
+                try
+                {
+                    connection.Open();
+                    if (command.ExecuteNonQuery() > 0)
+                        success = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return success;
+        }
+
         public bool Insert(Design design)
         {
             bool success = false;

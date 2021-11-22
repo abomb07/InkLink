@@ -26,7 +26,7 @@ namespace HelenaGrace.Controllers
             }
             else
             {
-                ViewData.Add("Message", "Login failed. Please try again.");
+                ViewData.Add("Fail", "Login failed. Please try again.");
                 return View("Index");
             }
         }

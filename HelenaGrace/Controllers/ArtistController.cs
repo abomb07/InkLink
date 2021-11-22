@@ -39,7 +39,7 @@ namespace HelenaGrace.Controllers
             }
             else
             {
-                ViewData.Add("Message", "Profile update failed.");
+                ViewData.Add("Fail", "Profile update failed.");
                 return View("UpdateProfileView");
             }
         }
@@ -47,6 +47,12 @@ namespace HelenaGrace.Controllers
         public IActionResult UploadDesignView()
         {
             return View();
+        }
+
+        public IActionResult DesignView(int Id)
+        {
+            DesignBusinessService dbs = new DesignBusinessService();
+            return View(dbs.GetById(Id));
         }
 
         public IActionResult UploadDesign(Design design)
@@ -61,21 +67,63 @@ namespace HelenaGrace.Controllers
                 Directory.CreateDirectory(path);
             }
 
-            string fileName = Path.GetFileName(design.Picture.FileName);
-            using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetFileName(design.Picture.FileName);
+            design.Path = uniqueFileName;
+            using (FileStream stream = new FileStream(Path.Combine(path, uniqueFileName), FileMode.Create))
             {
-                design.Picture.CopyTo(stream);
-            }
-            if (dbs.Insert(design))
-            {
-                ViewData.Add("Message", "Photo upload successful!");
-            }
-            else
-            {
-                ViewData.Add("Message", "Photo upload failed.");
+                if (dbs.Insert(design))
+                {
+                    design.Picture.CopyTo(stream);
+                    ViewData.Add("Success", "Photo upload successful!");
+                }
+                else
+                {
+                    ViewData.Add("Fail", "Photo upload failed.");
+                }
             }
 
             return View("UploadDesignView");
+        }
+
+        public IActionResult DeleteDesign(Design design)
+        {
+            DesignBusinessService dbs = new DesignBusinessService();
+
+            string wwwPath = this.Environment.WebRootPath;
+
+            string path = Path.Combine(wwwPath, "images");
+            FileInfo fp = new FileInfo(Path.Combine(path, design.Path));
+            if (fp.Exists && dbs.Delete(design))
+            {
+                fp.Delete();
+                ViewData.Add("Success", "Photo delete successful!");
+            }
+            else
+            {
+                ViewData.Add("Fail", "Photo delete failed.");
+            }
+
+            return View("/Views/Home/Index.cshtml", dbs.GetAll());
+        }
+
+        public IActionResult EditDescriptionView(Design design)
+        {
+            return View(design);
+        }
+
+        public IActionResult EditDescription(Design design)
+        {
+            DesignBusinessService dbs = new DesignBusinessService();
+            if (dbs.UpdateDesign(design))
+            {
+                ViewData.Add("Success", "Description update successful!");
+                return View("DesignView", dbs.GetById(design.Id));
+            }
+            else
+            {
+                ViewData.Add("Fail", "Description update failed.");
+                return View("EditDescriptionView", design);
+            }
         }
     }
 }
