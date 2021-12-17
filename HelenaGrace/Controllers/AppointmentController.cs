@@ -15,17 +15,34 @@ namespace HelenaGrace.Controllers
 
         public IActionResult MakeAppointment(Appointment appointment) 
         {
-            DesignBusinessService dbs = new DesignBusinessService();
-
             if (service.MakeAppointment(appointment))
             {
-                return View("/Views/Home/Index.cshtml", dbs.GetAll());
+                service.SendApptEmails(appointment);
+                ViewData.Add("Success", "Appointment scheduled successfully!");
             }
             else
             {
                 ViewData.Add("Fail", "Appointment scheduling failed. Please try again.");
-                return View("Index");
             }
+            return View("Index");
+        }
+
+        public IActionResult AllAppointments()
+        {
+            return View(service.GetAll());
+        }
+
+        public IActionResult DeleteAppt(int id)
+        {
+            if (service.Delete(id))
+            {
+                ViewData.Add("Success", "Appointment deleted successfully");
+            }
+            else
+            {
+                ViewData.Add("Fail", "Appointment delete failed.");
+            }
+            return View("/Views/Appointment/AllAppointments.cshtml", service.GetAll());
         }
     }
 }

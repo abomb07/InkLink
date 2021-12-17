@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace HelenaGrace.Models.Data
@@ -34,8 +35,77 @@ namespace HelenaGrace.Models.Data
                     Console.WriteLine(ex.Message);
                     return false;
                 }
+                finally
+                {
+                    connection.Close();
+                }
             }
             return true;
+        }
+
+        public bool Delete(int id)
+        {
+            bool success = false;
+            string sqlStatement = "DELETE FROM dbo.[Appointments] WHERE ID=@id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+
+                command.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = id;
+                try
+                {
+                    connection.Open();
+                    if (command.ExecuteNonQuery() > 0)
+                        success = true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return success;
+        }
+
+        public List<Appointment> GetAll()
+        {
+            List<Appointment> res = new List<Appointment>();
+
+            string sqlStatement = "SELECT * FROM dbo.[Appointments] ORDER BY dateTime DESC";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(sqlStatement, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Appointment appt = new Appointment();
+                        appt.id = (int)reader["ID"];
+                        appt.name = (string)reader["name"];
+                        appt.email = (string)reader["email"];
+                        appt.phoneNumber = (string)reader["phoneNumber"];
+                        appt.dateTime = (DateTime)reader["dateTime"];
+                        res.Add(appt);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return res;
         }
     }
 }

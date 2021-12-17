@@ -26,6 +26,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Artist" asp-action="Index">About Me</a>
                         </li>
+                        @if (Context.Session.GetInt32("loggedIn") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Bugs" asp-action="Index">Report A Bug</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="AllAppointments">View All Appointments</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
