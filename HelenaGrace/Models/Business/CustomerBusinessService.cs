@@ -19,7 +19,7 @@ namespace HelenaGrace.Models.Business
         {
             var mailMessage = new MimeMessage();
             mailMessage.From.Add(new MailboxAddress("noreply.inklink", "noreply.inklink@gmail.com"));
-            mailMessage.To.Add(new MailboxAddress("Helena", "abend07@gmail.com"));
+            mailMessage.To.Add(new MailboxAddress("Helena", "helenagracetattoo@yahoo.com"));
             mailMessage.Subject = "New Tattoo Appointment";
             mailMessage.Body = new TextPart("plain")
             {
